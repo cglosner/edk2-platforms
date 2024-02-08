@@ -8,7 +8,7 @@
 #
 ##
 
-0x00000000|0x0003e000
+0x00000000|0x00040000
 gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
 #NV_VARIABLE_STORE
 DATA = {
@@ -46,7 +46,7 @@ DATA = {
 !endif
   #Size: 0x3E000 (gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize) - 0x48 (size of EFI_FIRMWARE_VOLUME_HEADER) = 0x03DFB8
   # This can speed up the Variable Dispatch a bit.
-  0xB8, 0xDF, 0x03, 0x00,
+  0xB8, 0xFF, 0x03, 0x00,
   # FORMATTED: 0x5A #HEALTHY: 0xFE #Reserved: UINT16 #Reserved1: UINT32
   0x5A, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 }
