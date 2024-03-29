@@ -567,10 +567,9 @@ InitializeRamRegions (
       
       // ASAN
       LowerMemorySize = GetSystemMemorySizeBelow4gb ();
-      LowerMemorySize -= mX58TsegMbytes * SIZE_1MB;
       
       AsanShadowMemorySize = LowerMemorySize>>3;
-      AsanShadowMemoryStart = 0x3E10000;
+      AsanShadowMemoryStart = 0x5000000;
 
       DEBUG ((EFI_D_INFO, "LowerMemorySize = 0x%x\n", LowerMemorySize));
       DEBUG ((EFI_D_INFO, "AsanShadowMemoryStart = 0x%x\n", AsanShadowMemoryStart));
