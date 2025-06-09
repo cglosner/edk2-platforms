@@ -25,7 +25,9 @@
 #include <Library/CmosAccessLib.h>
 #include <SimicsPlatforms.h>
 #include <Guid/SmramMemoryReserve.h>
+#ifdef ASAN_ENABLE
 #include <Library/Asan.h>
+#endif
 
 #include <CmosMap.h>
 
@@ -490,10 +492,12 @@ InitializeRamRegions (
   VOID
   )
 {
+#ifdef ASAN_ENABLE
   UINT64                      LowerMemorySize;
   UINT64                      AsanShadowMemorySize;
   UINT64                      AsanShadowMemoryStart;
   ASAN_INFO                   AsanInfo;
+#endif
   QemuInitializeRam ();
 
   if (mS3Supported && mBootMode != BOOT_ON_S3_RESUME) {
@@ -565,6 +569,7 @@ InitializeRamRegions (
         EfiReservedMemoryType
         );
       
+#ifdef ASAN_ENABLE
       // ASAN
       LowerMemorySize = GetSystemMemorySizeBelow4gb ();
       
@@ -594,6 +599,7 @@ InitializeRamRegions (
         &AsanInfo,
         sizeof (ASAN_INFO)
         );
+#endif
     }
   }
 }

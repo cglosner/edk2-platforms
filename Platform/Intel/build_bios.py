@@ -390,6 +390,9 @@ def build(config):
     if config["REBUILD_MODE"] and config["REBUILD_MODE"] != "":
         command.append(config["REBUILD_MODE"])
 
+    if config["TOOL_CHAIN_TAG"] == "CLANGSAN":
+        config["EXT_BUILD_FLAGS"] += " -DASAN_ENABLE"
+
     if config["EXT_BUILD_FLAGS"] and config["EXT_BUILD_FLAGS"] != "":
         ext_build_flags = config["EXT_BUILD_FLAGS"].split(" ")
         ext_build_flags = [x.strip() for x in ext_build_flags]

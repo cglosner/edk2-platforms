@@ -14,6 +14,9 @@
   MdeModulePkg/Core/Dxe/DxeMain.inf {
     <LibraryClasses>
       NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+  !if $(ASAN_ENABLE) != TRUE
+      AsanLib|MdePkg/Library/BaseLib/BaseLib.inf
+  !endif
   }
   MdeModulePkg/Universal/PCD/Dxe/Pcd.inf {
     <LibraryClasses>
@@ -127,7 +130,13 @@
   }
 
   MdeModulePkg/Core/PiSmmCore/PiSmmIpl.inf
-  MdeModulePkg/Core/PiSmmCore/PiSmmCore.inf
+  MdeModulePkg/Core/PiSmmCore/PiSmmCore.inf {
+    <LibraryClasses>
+    !if $(ASAN_ENABLE) != TRUE
+      AsanLib|MdePkg/Library/BaseLib/BaseLib.inf
+      DxeServicesLib|MdePkg/Library/BaseLib/BaseLib.inf
+    !endif
+  }
 
   MdeModulePkg/Universal/ReportStatusCodeRouter/Smm/ReportStatusCodeRouterSmm.inf
   MdeModulePkg/Universal/StatusCodeHandler/Smm/StatusCodeHandlerSmm.inf
