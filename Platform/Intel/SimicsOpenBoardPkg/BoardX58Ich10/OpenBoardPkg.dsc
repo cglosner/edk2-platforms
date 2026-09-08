@@ -235,7 +235,15 @@
   # Edk2 Packages
   #######################################
   MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
-  MdeModulePkg/Bus/Ata/AtaBusDxe/AtaBusDxe.inf
+  # asan-stack is disabled platform-wide in OpenBoardPkgBuildOption.dsc because
+  # compiler-emitted inline frame poisoning writes shadow unconditionally, and some
+  # early module stacks fall outside the mapped shadow -- enabling it everywhere
+  # #GPs the boot in CpuDxe. Re-enable it for ordinary DXE drivers under test, where
+  # the stack is normal DXE memory, so stack out-of-bounds is reportable there.
+  MdeModulePkg/Bus/Ata/AtaBusDxe/AtaBusDxe.inf {
+    <BuildOptions>
+      *_CLANGSAN_X64_SAN_FLAGS == -fsanitize=address -fno-sanitize-address-use-after-scope -mllvm -asan-stack-dynamic-alloca=0 -mllvm -asan-instrumentation-with-call-threshold=0 -mllvm -asan-force-dynamic-shadow=true -fsanitize=undefined -fno-sanitize=alignment -Wno-frame-address
+  }
   MdeModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2KeyboardDxe.inf
   MdeModulePkg/Bus/Pci/NvmExpressDxe/NvmExpressDxe.inf
   MdeModulePkg/Bus/Pci/SataControllerDxe/SataControllerDxe.inf
@@ -249,7 +257,10 @@
   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
   MdeModulePkg/Universal/Acpi/S3SaveStateDxe/S3SaveStateDxe.inf
   MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
-  MdeModulePkg/Universal/EbcDxe/EbcDxe.inf
+  MdeModulePkg/Universal/EbcDxe/EbcDxe.inf {
+    <BuildOptions>
+      *_CLANGSAN_X64_SAN_FLAGS == -fsanitize=address -fno-sanitize-address-use-after-scope -mllvm -asan-stack-dynamic-alloca=0 -mllvm -asan-instrumentation-with-call-threshold=0 -mllvm -asan-force-dynamic-shadow=true -fsanitize=undefined -fno-sanitize=alignment -Wno-frame-address
+  }
   MdeModulePkg/Universal/PrintDxe/PrintDxe.inf
 !if gMinPlatformPkgTokenSpaceGuid.PcdBootToShellOnly == FALSE
   #MdeModulePkg/Universal/LockBox/SmmLockBox/SmmLockBox.inf {
