@@ -74,6 +74,10 @@
 
 [LibraryClasses.common.DXE_DRIVER]
   TpmPlatformHierarchyLib|MinPlatformPkg/Tcg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf
+  # BootScriptExecutorDxe consumes AsanLib by class, not just the NULL constructor:
+  # ScriptExecute.c calls UnpoisonPool. Without the class resolution the build stops
+  # with "Instance of library class [AsanLib] is not found".
+  AsanLib|MdeModulePkg/Library/AsanLib/AsanLib.inf
   NULL|MdeModulePkg/Library/AsanLib/AsanLib.inf
 
 [LibraryClasses.common.DXE_SMM_DRIVER]
